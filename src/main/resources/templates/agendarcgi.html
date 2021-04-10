@@ -19,9 +19,9 @@
 
 
 
-  <form style="text-align: center" th:action="@{/agendarjov}" method="get">  
-      <button style="margin-top: 3em" type="submit"  class="btn btn-primary btn-xl">Atender Paciente Joven</button>
-      
+  <form style="text-align: center" th:action="@{/agendarcgi}" method="get">  
+      <button style="margin-top: 3em" type="submit"  class="btn btn-primary btn-xl">Atender </button>
+      <h2>Pacientes Joven</h2>
  <table   style="table-layout: fixed;width: 60em; margin-left: 14em; margin-top: 2em;"  class="table table-info table-striped table-bordered">
             <thead style="text-align: center">
                 <tr>
@@ -38,20 +38,19 @@
                     <td style="text-align: center" th:text="${jov.nombre}"></td>
                     <td style="text-align: center" th:text="${jov.edad}"></td>
                     <td style="text-align: center" th:text="${jov.noHistoriaClinica}"></td>
-                    <td style="text-align: center" th:text="${jov.gravedad}"></td>
-                    <input  th:name="id" type="hidden"  th:value="${id}">
-                     <input  th:name="idjov" type="hidden" th:value="${jov.id}">
-                          
+                    <td style="text-align: center"  th:text="${jov.gravedad}"></td>
+                    <input  th:name="jgrav" type="hidden" th:value="${jov.gravedad}">
+                    <input  th:name="idjov" type="hidden" th:value="${jov.id}">
+                    <input  th:name="id" type="hidden"  th:value="${id}"> 
                 </tr>
 
             </tbody>
         </table>
-  </form>
+  
 
 
-<form style="text-align: center" th:action="@{/agendaranc}" method="get">  
-      <button style="margin-top: 3em" type="submit"  class="btn btn-primary btn-xl">Atender Paciente Anciano</button>
-      
+
+      <h2>Pacientes Ancianos</h2>
  <table   style="table-layout: fixed;width: 60em; margin-left: 14em; margin-top: 2em;"  class="table table-info table-striped table-bordered">
             <thead style="text-align: center">
                 <tr>
@@ -68,10 +67,11 @@
                     <td style="text-align: center" th:text="${anc.nombre}"></td>
                     <td style="text-align: center" th:text="${anc.edad}"></td>
                     <td style="text-align: center" th:text="${anc.noHistoriaClinica}"></td>
-                    <td style="text-align: center" th:text="${anc.gravedad}"></td>
+                    <td style="text-align: center"  th:text="${anc.gravedad}"></td>
                     <input  th:name="id" type="hidden"  th:value="${id}">
+                     
+                     <input  th:name="agrav" type="hidden" th:value="${anc.gravedad}">
                      <input  th:name="idanc" type="hidden" th:value="${anc.id}">
-                          
                 </tr>
 
             </tbody>

@@ -24,8 +24,6 @@ public class Inicio {
 
     int cont = 0;
 
-    
-    
     @Autowired
     private IConsultas cc;
 
@@ -34,8 +32,7 @@ public class Inicio {
 
     @Autowired
     private IPJovenes pj;
-    
-    
+
     @Autowired
     private IPAncianos pa;
 
@@ -63,114 +60,116 @@ public class Inicio {
         return "ocupados";
 
     }
-    
-    
-    
+
     @GetMapping("/desocupar")
     public String desocupar() {
 
         cc.findOcupados();
 
-       return "redirect:/ocupados";
+        return "redirect:/ocupados";
     }
-    
-    
-    
-    
-    
-    
-    
 
     @GetMapping("/agendar")
-    public String agendar( ModelMap m, @RequestParam(name = "id") int id,  @RequestParam(name = "tipo") String tipo) {
-        
-        
-        if (tipo.equals("Pediatria") ) {
+    public String agendar(ModelMap m, @RequestParam(name = "id") int id, @RequestParam(name = "tipo") String tipo) {
+
+        if (tipo.equals("Pediatria")) {
 
             Iterable<PNinnos> ninno = pn.findgravedad();
             m.addAttribute("ninno", ninno);
             m.addAttribute("id", id);
             return "agendarpediatria";
-        } else
-
+        } 
         
-        
-          if (tipo.equals("CGI") ) {
+        else if (tipo.equals("CGI")) {
 
             List<PJovenes> joven = pj.findgravedad();
             List<PAncianos> anciano = pa.findgravedad();
-            
-            
-            
+
             m.addAttribute("joven", joven);
-            m.addAttribute("anciano",anciano);
+            m.addAttribute("anciano", anciano);
             m.addAttribute("id", id);
             return "agendarcgi";
         }
-        
+
         return null;
 
     }
 
     @GetMapping("/agendarped")
-    public String agendarped(@RequestParam(name = "id" , required = false) Integer id, @RequestParam(name = "idnin" , required = false) Integer idnin) {
+    public String agendarped(@RequestParam(name = "id", required = false) Integer id, @RequestParam(name = "idnin", required = false) Integer idnin) {
 
-         if(id == null || idnin == null){
-        return "agendarpediatria";
-        } else{
-        
-        
-             cc.aumentar(id);
-        
-            pn.deleteById(idnin);}
-       
+        if (id == null || idnin == null) {
+            return "agendarpediatria";
+        } else {
 
-        return "redirect:/consultas";
-    }
-    
-    
-    
-    
-      @GetMapping("/agendaranc")
-    public String agendaranc(@RequestParam(name = "id", required = false) Integer id , @RequestParam(name = "idanc", required = false) Integer idanc) {
+            cc.aumentar(id);
 
-        
-           if(id == null || idanc == null){
-        return "agendarcgi";
-        } else{
-        
-             cc.aumentar(id);
-        
-             pa.deleteById(idanc);}
-       
+            pn.deleteById(idnin);
+        }
 
         return "redirect:/consultas";
     }
-    
-    
-    
-       @GetMapping("/agendarjov")
-    public String agendarjov(@RequestParam(name = "id" , required = false) Integer id, @RequestParam(name = "idjov" , required = false) Integer idjov) {
 
-        
-        
-           if(id == null || idjov == null){
-        return "agendarcgi";
-        } else{
-        
-             cc.aumentar(id);
-        
-             pj.deleteById(idjov);}
-        
+    @GetMapping("/agendarcgi")
+    public String agendarancgi(@RequestParam(name = "id", required = false,defaultValue ="0") int id, @RequestParam(name = "idanc", required = false) Integer idanc, @RequestParam(name = "idjov", required = false) Integer idjov, @RequestParam(name = "agrav", required = false , defaultValue = "0") Integer agrav, @RequestParam(name = "jgrav", required = false , defaultValue = "0") Integer jgrav) {
+                                      //cambiar po ||                                            
+        if ((id == 0 && idanc == null ) && (id == 0 &&  idjov == null)) {
             
-       
+            
+            System.out.println("algo falla aca");
+            System.out.println(idanc);
+            System.out.println(idjov);
+            return "agendarcgi";
+            
+        }
+        
+        
+        //ANCIANO
+        
+        if (jgrav < agrav ){
+ System.out.println("entre en la 1");
+            cc.aumentar(id);
+
+            pa.deleteById(idanc);
+            
+           
+        }
+        
+        
+        
+        
+        // JOVEN
+        if (jgrav > agrav ) {
+            System.out.println("entre en la 2");
+            cc.aumentar(id);
+
+            pj.deleteById(idjov);
+        }
+        
+        
+        //JOVEN
+        if (jgrav == agrav && idjov < idanc) {
+            System.out.println("entre en la 3");
+            cc.aumentar(id);
+
+            pj.deleteById(idjov);
+            
+            
+            
+            //ANCIANO
+        }
+        if (jgrav == agrav && idjov > idanc) {
+            System.out.println("entre en la 4");
+            cc.aumentar(id);
+
+            pa.deleteById(idanc);
+            
+            
+        }
 
         return "redirect:/consultas";
     }
-    
-    
 
-    
     @PostMapping("/crear")
 
     public String crear(Model m, Consultas consulta) {
@@ -237,23 +236,23 @@ public class Inicio {
 
         if (edad >= 1 && edad <= 5) {
 
-            int condicion = (peso /altura) + 3;
+            int condicion = (peso / altura) + 3;
 
-            
-            
             m.addFlashAttribute("relacion", condicion);
             m.addFlashAttribute("edad", edad);
-        } if (edad >= 6 && edad <= 12) {
+        }
+        if (edad >= 6 && edad <= 12) {
 
-            int condicion = (peso /altura) + 2;
-            
+            int condicion = (peso / altura) + 2;
+
             m.addFlashAttribute("relacion", condicion);
             m.addFlashAttribute("edad", edad);
 
-        }  if (edad >= 13 && edad <= 15) {
+        }
+        if (edad >= 13 && edad <= 15) {
 
             int condicion = (peso / altura) + 1;
-           
+
             m.addFlashAttribute("relacion", condicion);
             m.addFlashAttribute("edad", edad);
         }
@@ -327,10 +326,7 @@ public class Inicio {
         return "redirect:/";
 
     }
-    
-    
-    
-    
+
     @PostMapping("/creara")
 
     public String creara(PAncianos pancia) {
@@ -339,7 +335,6 @@ public class Inicio {
         return "redirect:/";
 
     }
-    
 
     @GetMapping("/pacienten")
 
@@ -356,8 +351,7 @@ public class Inicio {
         return "pacientej";
 
     }
-    
-    
+
     @GetMapping("/pacientea")
 
     public String pacientea() {
@@ -365,6 +359,5 @@ public class Inicio {
         return "pacientea";
 
     }
-    
 
 }
