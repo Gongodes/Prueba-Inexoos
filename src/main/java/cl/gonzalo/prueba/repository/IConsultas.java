@@ -29,15 +29,31 @@ public interface IConsultas extends CrudRepository<Consultas, Integer> {
    
    
 
+    @Modifying 
+   @Transactional
+   @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'CGI' AND estado='En Espera' LIMIT 1")
+   void findCGIOcupado();
    
-   
+ 
+ 
+ 
+            @Query(nativeQuery = true, value = "SELECT * FROM  consultas WHERE estado='En Espera'")
+	    List<Consultas> findbyestado();
+
+            
+            @Query("select count(e) from Consultas e where e.estado = 'En Espera'")
+            Integer findbycantidad();
+            
+            
+           
 
 List<Consultas> findAllByEstado(String estado);
+
 
 Consultas findByIds(int id);
 
 
-   
+
  
 
 

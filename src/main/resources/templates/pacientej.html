@@ -23,7 +23,7 @@
 
   <div class="input-group">
  
-  <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Ingrese nombre de paciente" required="required"/>
+   <input onkeyup="validate();" type="text" class="form-control" name="nombre" id="nombre" placeholder="Ingrese nombre de paciente" required="required"  />
    <input type="number" class="form-control" name="noHistoriaClinica" id="noHistoriaClinica" placeholder="Ingrese n° H. C. de paciente" required="required"/> 
   <input type="hidden" th:value="${condicion}" name="gravedad" /> 
   <input type="hidden" th:value="${fumador}" name="fumador" /> 
@@ -31,7 +31,11 @@
  
  
   
-
+<script > 
+    function validate() {
+  var element = document.getElementById('nombre');
+  element.value = element.value.replace(/[^a-zA-Z@]+/, '');
+};</script>
 <button type="submit" class="btn btn-info">Ingresar</button>
 </form>
 </div>

@@ -78,9 +78,7 @@ public class Inicio {
             m.addAttribute("ninno", ninno);
             m.addAttribute("id", id);
             return "agendarpediatria";
-        } 
-        
-        else if (tipo.equals("CGI")) {
+        } else if (tipo.equals("CGI")) {
 
             List<PJovenes> joven = pj.findgravedad();
             List<PAncianos> anciano = pa.findgravedad();
@@ -110,66 +108,7 @@ public class Inicio {
         return "redirect:/consultas";
     }
 
-    @GetMapping("/agendarcgi")
-    public String agendarancgi(@RequestParam(name = "id", required = false,defaultValue ="0") int id, @RequestParam(name = "idanc", required = false) Integer idanc, @RequestParam(name = "idjov", required = false) Integer idjov, @RequestParam(name = "agrav", required = false , defaultValue = "0") Integer agrav, @RequestParam(name = "jgrav", required = false , defaultValue = "0") Integer jgrav) {
-                                      //cambiar po ||                                            
-        if ((id == 0 && idanc == null ) && (id == 0 &&  idjov == null)) {
-            
-            
-            System.out.println("algo falla aca");
-            System.out.println(idanc);
-            System.out.println(idjov);
-            return "agendarcgi";
-            
-        }
-        
-        
-        //ANCIANO
-        
-        if (jgrav < agrav ){
- System.out.println("entre en la 1");
-            cc.aumentar(id);
-
-            pa.deleteById(idanc);
-            
-           
-        }
-        
-        
-        
-        
-        // JOVEN
-        if (jgrav > agrav ) {
-            System.out.println("entre en la 2");
-            cc.aumentar(id);
-
-            pj.deleteById(idjov);
-        }
-        
-        
-        //JOVEN
-        if (jgrav == agrav && idjov < idanc) {
-            System.out.println("entre en la 3");
-            cc.aumentar(id);
-
-            pj.deleteById(idjov);
-            
-            
-            
-            //ANCIANO
-        }
-        if (jgrav == agrav && idjov > idanc) {
-            System.out.println("entre en la 4");
-            cc.aumentar(id);
-
-            pa.deleteById(idanc);
-            
-            
-        }
-
-        return "redirect:/consultas";
-    }
-
+   
     @PostMapping("/crear")
 
     public String crear(Model m, Consultas consulta) {
@@ -358,6 +297,66 @@ public class Inicio {
 
         return "pacientea";
 
+    }
+
+    @GetMapping("/lista")
+    public String lista(Model m) {
+
+        Iterable<PJovenes> joven = pj.findAll();
+        Iterable<PAncianos> anciano = pa.findAll();
+
+        m.addAttribute("joven", joven);
+        m.addAttribute("anciano", anciano);
+
+        return "lista";
+
+    }
+
+    @GetMapping("/atender")
+    public String atender(@RequestParam(name = "ngrav", required = false, defaultValue = "0") int ngrav, @RequestParam(name = "idnin", required = false, defaultValue = "0" ) int idnin, @RequestParam(name = "idanc", required = false, defaultValue = "0") Integer idanc, @RequestParam(name = "idjov", required = false , defaultValue = "0") Integer idjov, @RequestParam(name = "agrav", required = false, defaultValue = "0") Integer agrav, @RequestParam(name = "jgrav", required = false, defaultValue = "0") Integer jgrav) {
+      
+        System.out.println(pj.max());
+        System.out.println(pa.max());
+        System.out.println(cc.findbycantidad());
+        if (idnin == 0 && idanc == 0 && idjov == 0) {
+
+            return "nohaypaci";
+
+        }
+
+        //ANCIANO
+        if (pj.max() < pa.max()) {
+            System.out.println("entre en la 1");
+            Integer cantidad = cc.findbycantidad();
+            
+            if (cantidad ==0) {  return "nohay";
+                
+            }else{
+            
+              cc.findCGIOcupado();
+             pa.deleteById(pa.maxid());    
+           
+            }
+        }
+
+        // JOVEN
+        if (pj.max() > pa.max()) {
+            System.out.println("entre en la 2");
+            Integer cantidad = cc.findbycantidad();
+            
+            if (cantidad ==0) { return "nohay";
+                
+            }else{
+            
+              cc.findCGIOcupado();
+
+            pj.deleteById(pj.maxid());
+            }
+        }
+
+        
+
+        return "redirect:/lista";
     }
 
 }

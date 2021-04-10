@@ -23,4 +23,12 @@ public interface IPJovenes extends CrudRepository <PJovenes,Integer> {
     
     PJovenes findById(int id);
     
+    
+    
+         @Query(nativeQuery = true,value = "SELECT COALESCE(MAX(gravedad),0) FROM pjovenes order by id asc")
+	  Integer max();
+          
+          @Query(nativeQuery = true,value = "select min(id) from pjovenes where gravedad=(select max(gravedad) from pjovenes) ")
+	  public Integer maxid();
+    
 }

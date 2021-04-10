@@ -49,7 +49,7 @@
                     <th scope="col">Nombre Especialista</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Tipo de Consulta</th>
-                    <th scope="col">Gestionar</th>
+                    
                     
                 </tr>
             </thead>
@@ -59,10 +59,9 @@
                     <td style="text-align: center" th:text="${con.nombreEspecialista}"></td>
                     <td style="text-align: center" th:text="${con.estado}"></td>
                     <td style="text-align: center" th:text="${con.tipoConsulta}"></td>
-                    <td><form style="text-align: center" th:action="@{/agendar}" method="get">  
-                     <input  th:name="id" type="hidden" th:value="${con.ids}">
-                     <input  th:name="tipo" type="hidden" th:value="${con.tipoConsulta}">
-                    <button type="submit"  class="btn btn-primary btn-sm">Gestionar</button></form>  </td>
+                    
+                     
+                    
                    
                 </tr>
 

@@ -24,4 +24,12 @@ public interface IPAncianos extends CrudRepository<PAncianos,Integer> {
     
     PAncianos findById(int id);
     
+         
+    
+         @Query(nativeQuery = true,value = "SELECT COALESCE(MAX(gravedad),0) FROM pancianos order by id asc")
+	  Integer max();
+    
+         @Query(nativeQuery = true,value = "select min(id) from pancianos where gravedad=(select max(gravedad) from pancianos) ")
+	  public Integer maxid();
+    
 }

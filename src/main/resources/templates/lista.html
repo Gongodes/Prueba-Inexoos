@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Ingresar Consulta</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/624ca736ba.js" crossorigin="anonymous"></script> 
+
+</head>
+<body class="bg-light text-dark">
+<div class="panel panel-info">
+<div  class="page-header">
+
+    <h1 style="text-align: center; color: red">Sala de Espera</h1>
+ <form  th:action="@{/}" method="get">  
+                    <button  style="margin-left: 15em; margin-top: 2em" type="submit"  class="btn btn-success btn-sm">Volver a Inicio</button> </form> 
+</div >
+
+
+
+  <form style="text-align: center" th:action="@{/atender}" method="get">  
+      <button style="margin-bottom: 2em" type="submit"  class="btn btn-primary btn-xl">Atender </button>
+     
+      
+      <h3>Pacientes Niños</h3>
+ <table   style="table-layout: fixed;width: 60em; margin-left: 14em; "  class="table table-info table-striped table-bordered">
+            <thead style="text-align: center">
+                <tr>
+                    
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Edad</th>
+                    <th scope="col">Historia Clinica</th>
+                    <th scope="col">Prioridad</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="nin:${ninno}">
+                    <td style="text-align: center" th:text="${nin.nombre}"></td>
+                    <td style="text-align: center" th:text="${nin.edad}"></td>
+                    <td style="text-align: center" th:text="${nin.noHistoriaClinica}"></td>
+                    <td style="text-align: center"  th:text="${nin.relacionPeso}"></td>
+                   
+                     
+                     <input  th:name="ngrav" type="hidden" th:value="${nin.relacionPeso}">
+                     <input  th:name="idnin" type="hidden" th:value="${nin.id}">
+                </tr>
+
+            </tbody>
+        </table>
+      
+      
+      
+      <h3>Pacientes Joven</h3>
+ <table   style="table-layout: fixed;width: 60em; margin-left: 14em; "  class="table table-info table-striped table-bordered">
+            <thead style="text-align: center">
+                <tr>
+                    
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Edad</th>
+                    <th scope="col">Historia Clinica</th>
+                    <th scope="col">Prioridad</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="jov:${joven}">
+                    <td style="text-align: center" th:text="${jov.nombre}"></td>
+                    <td style="text-align: center" th:text="${jov.edad}"></td>
+                    <td style="text-align: center" th:text="${jov.noHistoriaClinica}"></td>
+                    <td style="text-align: center"  th:text="${jov.gravedad}"></td>
+                    <input  th:name="jgrav" type="hidden" th:value="${jov.gravedad}">
+                    <input  th:name="idjov" type="hidden" th:value="${jov.id}">
+                    
+                </tr>
+
+            </tbody>
+        </table>
+  
+
+
+
+      <h3>Pacientes Ancianos</h3>
+ <table   style="table-layout: fixed;width: 60em; margin-left: 14em; "  class="table table-info table-striped table-bordered">
+            <thead style="text-align: center">
+                <tr>
+                    
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Edad</th>
+                    <th scope="col">Historia Clinica</th>
+                    <th scope="col">Prioridad</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="anc:${anciano}">
+                    <td style="text-align: center" th:text="${anc.nombre}"></td>
+                    <td style="text-align: center" th:text="${anc.edad}"></td>
+                    <td style="text-align: center" th:text="${anc.noHistoriaClinica}"></td>
+                    <td style="text-align: center"  th:text="${anc.gravedad}"></td>
+                    
+                     
+                     <input  th:name="agrav" type="hidden" th:value="${anc.gravedad}">
+                     <input  th:name="idanc" type="hidden" th:value="${anc.id}">
+                </tr>
+
+            </tbody>
+        </table>
+  
+
+      
+      
+      
+      
+      
+</form>
+</div>
+
+
+
+    
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+</body>
+
+</html>
