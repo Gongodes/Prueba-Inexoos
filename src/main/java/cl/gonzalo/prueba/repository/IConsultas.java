@@ -21,72 +21,39 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface IConsultas extends CrudRepository<Consultas, Integer> {
 
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE consultas SET estado='En Espera' WHERE estado = 'Ocupada'")
+    void findOcupados();
 
-   @Modifying 
-   @Transactional
-   @Query(nativeQuery = true, value = "UPDATE consultas SET estado='En Espera' WHERE estado = 'Ocupada'")
-   void findOcupados();
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'CGI' AND estado='En Espera' LIMIT 1")
+    void findCGIOcupado();
 
-   
-   
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'Urgencia' AND estado='En Espera' LIMIT 1")
+    void findURGcupado();
 
-    @Modifying 
-   @Transactional
-   @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'CGI' AND estado='En Espera' LIMIT 1")
-   void findCGIOcupado();
-   
-   
-   @Modifying 
-   @Transactional
-   @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'Urgencia' AND estado='En Espera' LIMIT 1")
-   void findURGcupado();
-   
-   
-   
-   @Modifying 
-   @Transactional
-   @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'Pediatria' AND estado='En Espera' LIMIT 1")
-   void findPEDcupado();
-   
- 
- 
- 
-            @Query(nativeQuery = true, value = "SELECT * FROM  consultas WHERE estado='En Espera'")
-	    List<Consultas> findbyestado();
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'Pediatria' AND estado='En Espera' LIMIT 1")
+    void findPEDcupado();
 
-            
-            @Query(nativeQuery = true, value = "SELECT COUNT(estado)FROM consultas WHERE estado='En Espera' and tipo_consulta= 'CGI';")
-            Integer findbycantidadCGE();
-            
-            
-            @Query(nativeQuery = true, value = "SELECT COUNT(estado)FROM consultas WHERE estado='En Espera' and tipo_consulta= 'Pediatria';")
-            Integer findbycantidadPED();
-            
-             @Query(nativeQuery = true, value = "SELECT COUNT(estado)FROM consultas WHERE estado='En Espera' and tipo_consulta= 'Urgencia';")
-            Integer findbycantidadURG();
-            
-           
+    @Query(nativeQuery = true, value = "SELECT COUNT(estado)FROM consultas WHERE estado='En Espera' and tipo_consulta= 'CGI';")
+    Integer findbycantidadCGE();
 
-          List<Consultas> findAllByEstado(String estado);
-          
-          
-          
-          
+    @Query(nativeQuery = true, value = "SELECT COUNT(estado)FROM consultas WHERE estado='En Espera' and tipo_consulta= 'Pediatria';")
+    Integer findbycantidadPED();
+
+    @Query(nativeQuery = true, value = "SELECT COUNT(estado)FROM consultas WHERE estado='En Espera' and tipo_consulta= 'Urgencia';")
+    Integer findbycantidadURG();
+
+    List<Consultas> findAllByEstado(String estado);
+
     @Query(nativeQuery = true, value = "SELECT * FROM consultas   WHERE paciente = (SELECT MAX(paciente) FROM consultas)  order by ids;")
     Iterable<Consultas> findMassol();
 
-
-Consultas findByIds(int id);
-
-
-
- 
-
-
-   @Modifying 
-   @Transactional
-   @Query(nativeQuery = true, value = "UPDATE consultas SET paciente=paciente+1, estado='Ocupada' WHERE ids =:ids ")
-   void aumentar(@Param("ids") int ids);
-
-
+    
 }

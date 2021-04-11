@@ -1,5 +1,4 @@
 package cl.gonzalo.prueba.controller;
-
 import cl.gonzalo.prueba.model.Consultas;
 import cl.gonzalo.prueba.model.PAncianos;
 import cl.gonzalo.prueba.model.PJovenes;
@@ -276,36 +275,28 @@ public class Inicio {
         return "lista";
 
     }
-    
-    
+
     @GetMapping("/mayor")
     public String MAyorR() {
 
-        
-        
         return "mayor";
-        
 
     }
-    
-    
-     @GetMapping("/mayor2")
-    public String MAyorRC (RedirectAttributes m, @RequestParam(name = "mayor", required = false) Integer mayor) {
-        
+
+    @GetMapping("/mayor2")
+    public String MAyorRC(RedirectAttributes m, @RequestParam(name = "mayor", required = false) Integer mayor) {
+
         Iterable<PAncianos> pamax = pa.findMayorRiesgo(mayor);
         Iterable<PNinnos> pnmax = pn.findMayorRiesgo(mayor);
         Iterable<PJovenes> pjmax = pj.findMayorRiesgo(mayor);
-        
-                    
+
         m.addFlashAttribute("ninmax", pnmax);
         m.addFlashAttribute("ancmax", pamax);
         m.addFlashAttribute("jovmax", pjmax);
-        
-        
+
         return "redirect:/mayor";
 
     }
-    
 
     @GetMapping("/atenderadulto")
     public String atenderadulto(@RequestParam(name = "idanc", required = false, defaultValue = "0") Integer idanc, @RequestParam(name = "idjov", required = false, defaultValue = "0") Integer idjov) {
@@ -319,7 +310,7 @@ public class Inicio {
 
         }
 
-        //ANCIANO
+        
         if (pj.max() < pa.max()) {
 
             Integer cantidad = cc.findbycantidadCGE();
@@ -334,7 +325,7 @@ public class Inicio {
             }
         }
 
-        // JOVEN
+        
         if (pj.max() > pa.max()) {
 
             Integer cantidad = cc.findbycantidadCGE();
@@ -362,7 +353,7 @@ public class Inicio {
 
         }
 
-        // NIÑO
+        
         Integer cantidad = cc.findbycantidadPED();
 
         if (cantidad == 0) {
@@ -388,8 +379,7 @@ public class Inicio {
         }
 
         
-        //anciano
-         if (pj.maxgrave()< pa.maxgrave() && pn.maxgrave()<pa.maxgrave()) {
+        if (pj.maxgrave() < pa.maxgrave() && pn.maxgrave() < pa.maxgrave()) {
 
             Integer cantidad = cc.findbycantidadURG();
 
@@ -402,14 +392,9 @@ public class Inicio {
 
             }
         }
+
         
-        
-            
-            
-            
-            
-            // joven
-            if (pa.maxgrave()< pj.maxgrave() && pn.maxgrave()<pj.maxgrave()) {
+        if (pa.maxgrave() < pj.maxgrave() && pn.maxgrave() < pj.maxgrave()) {
 
             Integer cantidad = cc.findbycantidadURG();
 
@@ -422,14 +407,9 @@ public class Inicio {
 
             }
         }
+
         
-            
-            
-            
-            
-            
-             // niño
-            if (pa.maxgrave()< pn.maxgrave() && pj.maxgrave()<pn.maxgrave()) {
+        if (pa.maxgrave() < pn.maxgrave() && pj.maxgrave() < pn.maxgrave()) {
 
             Integer cantidad = cc.findbycantidadURG();
 
@@ -442,55 +422,32 @@ public class Inicio {
 
             }
         }
-         
-            
-            
-            
-            
-
-        
 
         return "redirect:/lista";
     }
 
-    
-    
-    
-    
-    
-    
-     @GetMapping("/fumador")
-      public String fumador(Model m) {
+    @GetMapping("/fumador")
+    public String fumador(Model m) {
         Iterable<PJovenes> fumador = pj.findfumador();
-         m.addAttribute("jovmax", fumador);
-       return "fumador";
+        m.addAttribute("jovmax", fumador);
+        return "fumador";
 
-        }
-      
-       @GetMapping("/anciano")
-      public String anciano(Model m) {
+    }
+
+    @GetMapping("/anciano")
+    public String anciano(Model m) {
         Iterable<PAncianos> panc = pa.findMasAnciano();
-         m.addAttribute("panc", panc);
-       return "masanciano";
+        m.addAttribute("panc", panc);
+        return "masanciano";
 
-        }
-    
-      
-       @GetMapping("/masol")
-      public String masol(Model m) {
+    }
+
+    @GetMapping("/masol")
+    public String masol(Model m) {
         Iterable<Consultas> consulta = cc.findMassol();
-         m.addAttribute("consulta", consulta);
-       return "masol";
+        m.addAttribute("consulta", consulta);
+        return "masol";
 
-        }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    }
+
 }
