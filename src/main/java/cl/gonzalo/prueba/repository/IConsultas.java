@@ -6,6 +6,7 @@
 package cl.gonzalo.prueba.repository;
 
 import cl.gonzalo.prueba.model.Consultas;
+import cl.gonzalo.prueba.model.PAncianos;
 import cl.gonzalo.prueba.model.PNinnos;
 import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
@@ -67,6 +68,12 @@ public interface IConsultas extends CrudRepository<Consultas, Integer> {
            
 
           List<Consultas> findAllByEstado(String estado);
+          
+          
+          
+          
+    @Query(nativeQuery = true, value = "SELECT * FROM consultas   WHERE paciente = (SELECT MAX(paciente) FROM consultas)  order by ids;")
+    Iterable<Consultas> findMassol();
 
 
 Consultas findByIds(int id);

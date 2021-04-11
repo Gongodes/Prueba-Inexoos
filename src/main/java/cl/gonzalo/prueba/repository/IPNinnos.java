@@ -49,5 +49,19 @@ public interface IPNinnos extends CrudRepository<PNinnos, Integer> {
           
           @Query(nativeQuery = true,value = "select min(ids) from pninnos where relacion_peso=(select max(relacion_peso) from pninnos) and relacion_peso > 4 ")
 	  public Integer maxidgrave();
+          
+          
+          
+          
+          
+          
+          
+           
+    @Query(nativeQuery = true, value = "SELECT * FROM pninnos   WHERE relacion_peso = (SELECT MAX(relacion_peso) FROM pninnos) and no_historia_clinica =:no_historia_clinica  order by ids;")
+    Iterable<PNinnos> findMayorRiesgo(@Param("no_historia_clinica") Integer no_historia_clinica);
+          
+          
+          
+          
     
 }

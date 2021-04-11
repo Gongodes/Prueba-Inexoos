@@ -10,6 +10,7 @@ import cl.gonzalo.prueba.model.PJovenes;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -24,6 +25,17 @@ public interface IPAncianos extends CrudRepository<PAncianos,Integer> {
     
     @Query(nativeQuery = true, value = "SELECT * FROM pancianos WHERE gravedad >4 order by gravedad  desc")
     Iterable<PAncianos> findgravedadmax();
+    
+    
+    
+    
+    
+    @Query(nativeQuery = true, value = "SELECT * FROM pancianos   WHERE gravedad = (SELECT MAX(gravedad) FROM pancianos) and no_historia_clinica =:no_historia_clinica  order by id;")
+    Iterable<PAncianos> findMayorRiesgo(@Param("no_historia_clinica") Integer no_historia_clinica);
+    
+    @Query(nativeQuery = true, value = "SELECT * FROM pancianos   WHERE edad = (SELECT MAX(edad) FROM pancianos)  order by id;")
+    Iterable<PAncianos> findMasAnciano();
+    
     
     
     PAncianos findById(int id);

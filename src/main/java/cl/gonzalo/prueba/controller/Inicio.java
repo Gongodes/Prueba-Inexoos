@@ -276,6 +276,36 @@ public class Inicio {
         return "lista";
 
     }
+    
+    
+    @GetMapping("/mayor")
+    public String MAyorR() {
+
+        
+        
+        return "mayor";
+        
+
+    }
+    
+    
+     @GetMapping("/mayor2")
+    public String MAyorRC (RedirectAttributes m, @RequestParam(name = "mayor", required = false) Integer mayor) {
+        
+        Iterable<PAncianos> pamax = pa.findMayorRiesgo(mayor);
+        Iterable<PNinnos> pnmax = pn.findMayorRiesgo(mayor);
+        Iterable<PJovenes> pjmax = pj.findMayorRiesgo(mayor);
+        
+                    
+        m.addFlashAttribute("ninmax", pnmax);
+        m.addFlashAttribute("ancmax", pamax);
+        m.addFlashAttribute("jovmax", pjmax);
+        
+        
+        return "redirect:/mayor";
+
+    }
+    
 
     @GetMapping("/atenderadulto")
     public String atenderadulto(@RequestParam(name = "idanc", required = false, defaultValue = "0") Integer idanc, @RequestParam(name = "idjov", required = false, defaultValue = "0") Integer idjov) {
@@ -423,4 +453,44 @@ public class Inicio {
         return "redirect:/lista";
     }
 
+    
+    
+    
+    
+    
+    
+     @GetMapping("/fumador")
+      public String fumador(Model m) {
+        Iterable<PJovenes> fumador = pj.findfumador();
+         m.addAttribute("jovmax", fumador);
+       return "fumador";
+
+        }
+      
+       @GetMapping("/anciano")
+      public String anciano(Model m) {
+        Iterable<PAncianos> panc = pa.findMasAnciano();
+         m.addAttribute("panc", panc);
+       return "masanciano";
+
+        }
+    
+      
+       @GetMapping("/masol")
+      public String masol(Model m) {
+        Iterable<Consultas> consulta = cc.findMassol();
+         m.addAttribute("consulta", consulta);
+       return "masol";
+
+        }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

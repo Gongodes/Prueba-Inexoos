@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Ingresar Consulta</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/624ca736ba.js" crossorigin="anonymous"></script> 
+
+</head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Ingresar Consulta</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/624ca736ba.js" crossorigin="anonymous"></script> 
+
+</head>
+<body class="bg-light text-dark">
+<div class="panel panel-info">
+<div  class="page-header">
+    <h1 style="text-align: center; margin-top: 0.2em; color: red">Paciente Fumador Mayor Riesgo </h1>
+</div ><a style="margin-left: 5em; " class="btn btn-success btn-sm" th:href="@{/lista}" role="button">Volver Atras</a>
+    
+
+</div >
+
+
+
+
+    
+
+
+
+        <table   style="table-layout: fixed;width: 60em; margin-left: 15em ; margin-top: 2em "  class="table table-info table-striped table-bordered">
+            <thead style="text-align: center">
+                <tr>
+                    
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Edad</th>
+                    <th scope="col">Historia Clinica</th>
+                    <th scope="col">Prioridad</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                 
+                <tr th:each="jovm:${jovmax}">
+                    <td style="text-align: center" th:text="${jovm.nombre}"></td>
+                    <td style="text-align: center" th:text="${jovm.edad}"></td>
+                    <td style="text-align: center" th:text="${jovm.noHistoriaClinica}"></td>
+                    <td style="text-align: center"  th:text="${jovm.gravedad}"></td>
+                    
+                     
+                    
+                </tr>
+                
+                
+               
+
+            </tbody>
+        </table>
+    
+</body>
+</html>

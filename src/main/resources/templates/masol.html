@@ -12,35 +12,16 @@
 <div class="panel panel-info">
 <div  class="page-header">
 
-<h1>Ingresar Consulta</h1>
+    <h1 style="text-align: center">Ingresar Consulta</h1>
 
 </div >
 
-<div >
-<form action="#" th:action="@{/crear}" th:object="${consulta}" method="post">
 
-<div class="form-group">
 
-  <div class="input-group">
- 
-  
-    
-  <input type="text" class="form-control" name="nombreEspecialista" id="nombreEspecialista" placeholder="Ingrese nombre de especialista" required="required"/> 
-   <input  name="estado" type="hidden" value="En Espera">
-  <select class="form-control" name="tipoConsulta" id="tipoConsulta">
-        <option value="Pediatria">Pediatria</option>
-        <option value="CGI">CGI</option>
-        <option value="Urgencia">Urgencia</option> 
-   </select>
-
-<button type="submit" class="btn btn-info">Ingresar</button>
-</form>
-</div>
 
     <div style="margin-left: 26em; margin-top: 3em">
-    <a class="btn btn-danger" th:href="@{/ocupados}" role="button">Ver Consultas Ocupadas</a>      
-    <a class="btn btn-warning" th:href="@{/masol}" role="button">Consulta Mas Solicitada</a>  
-    <a class="btn btn-info" th:href="@{/}" role="button">Volver a Inicio</a>  
+    
+    <a class="btn btn-info" th:href="@{/consultas}" role="button">Volver atras</a>  
     </div>
  <table   style="table-layout: fixed;width: 60em; margin-left: 14em; margin-top: 2em;"  class="table table-info table-striped table-bordered">
             <thead style="text-align: center">
