@@ -19,17 +19,34 @@ public interface IPAncianos extends CrudRepository<PAncianos,Integer> {
     
     
     @Query(nativeQuery = true, value = "SELECT * FROM pancianos WHERE gravedad <=4 order by gravedad  desc")
-    List<PAncianos> findgravedad();
+    Iterable<PAncianos> findgravedad();
+    
+    
+    @Query(nativeQuery = true, value = "SELECT * FROM pancianos WHERE gravedad >4 order by gravedad  desc")
+    Iterable<PAncianos> findgravedadmax();
     
     
     PAncianos findById(int id);
     
          
     
-         @Query(nativeQuery = true,value = "SELECT COALESCE(MAX(gravedad),0) FROM pancianos order by id asc")
+        @Query(nativeQuery = true,value = "select COALESCE(max(gravedad),0) from pancianos where id=(select min(id) from pancianos) and gravedad <= 4;")
 	  Integer max();
-    
-         @Query(nativeQuery = true,value = "select min(id) from pancianos where gravedad=(select max(gravedad) from pancianos) ")
+          
+         
+          
+          
+          @Query(nativeQuery = true,value = "select min(id) from pancianos where gravedad=(select max(gravedad) from pancianos) and gravedad <= 4 ")
 	  public Integer maxid();
+          
+          
+          @Query(nativeQuery = true,value = "select COALESCE(max(gravedad),0) from pancianos where id=(select min(id) from pancianos) and gravedad > 4;")
+	  Integer maxgrave();
+          
+         
+          
+          
+          @Query(nativeQuery = true,value = "select min(id) from pancianos where gravedad=(select max(gravedad) from pancianos) and gravedad > 4 ")
+	  public Integer maxidgrave();
     
 }

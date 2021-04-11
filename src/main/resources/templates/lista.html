@@ -19,12 +19,12 @@
 
 
 
-  <form style="text-align: center" th:action="@{/atender}" method="get">  
-      <button style="margin-bottom: 2em" type="submit"  class="btn btn-primary btn-xl">Atender </button>
+  <form style="text-align: center" th:action="@{/atendernino}" method="get">  
+      <button style="margin-bottom: 0.5em" type="submit"  class="btn btn-primary btn-xl">Atender Niño </button>
      
       
       <h3>Pacientes Niños</h3>
- <table   style="table-layout: fixed;width: 60em; margin-left: 14em; "  class="table table-info table-striped table-bordered">
+ <table   style="table-layout: fixed;width: 60em; margin-left: 14em; "  class="table table-info table-striped table-bordered ">
             <thead style="text-align: center">
                 <tr>
                     
@@ -44,15 +44,18 @@
                    
                      
                      <input  th:name="ngrav" type="hidden" th:value="${nin.relacionPeso}">
-                     <input  th:name="idnin" type="hidden" th:value="${nin.id}">
+                     <input  th:name="idnin" type="hidden" th:value="${nin.ids}">
                 </tr>
 
             </tbody>
         </table>
       
+      </form>
       
       
-      <h3>Pacientes Joven</h3>
+      <form style="text-align: center; " th:action="@{/atenderadulto}" method="get">  
+      <button style="margin-bottom: 0.5em ; margin-top: 1em" type="submit"  class="btn btn-primary btn-xl">Atender Adulto </button>
+      <h3>Pacientes Adultos</h3>
  <table   style="table-layout: fixed;width: 60em; margin-left: 14em; "  class="table table-info table-striped table-bordered">
             <thead style="text-align: center">
                 <tr>
@@ -74,26 +77,7 @@
                     <input  th:name="idjov" type="hidden" th:value="${jov.id}">
                     
                 </tr>
-
-            </tbody>
-        </table>
-  
-
-
-
-      <h3>Pacientes Ancianos</h3>
- <table   style="table-layout: fixed;width: 60em; margin-left: 14em; "  class="table table-info table-striped table-bordered">
-            <thead style="text-align: center">
-                <tr>
-                    
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Edad</th>
-                    <th scope="col">Historia Clinica</th>
-                    <th scope="col">Prioridad</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
+                
                 <tr th:each="anc:${anciano}">
                     <td style="text-align: center" th:text="${anc.nombre}"></td>
                     <td style="text-align: center" th:text="${anc.edad}"></td>
@@ -107,14 +91,67 @@
 
             </tbody>
         </table>
-  
+      </form>
 
       
+
+      
+  
+<form style="text-align: center" th:action="@{/atendercritico}" method="get">  
+      <button style="margin-bottom: 0.5em; margin-top: 1em"  type="submit"  class="btn btn-primary btn-xl">Atender Critico </button>
+      <h3>Pacientes Criticos</h3>
+ <table   style="table-layout: fixed;width: 60em; margin-left: 14em; "  class="table table-info table-striped table-bordered">
+            <thead style="text-align: center">
+                <tr>
+                    
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Edad</th>
+                    <th scope="col">Historia Clinica</th>
+                    <th scope="col">Prioridad</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                 <tr th:each="ninm:${ninmax}">
+                    <td style="text-align: center" th:text="${ninm.nombre}"></td>
+                    <td style="text-align: center" th:text="${ninm.edad}"></td>
+                    <td style="text-align: center" th:text="${ninm.relacionPeso}"></td>
+                    <td style="text-align: center"  th:text="${ninm.relacionPeso}"></td>
+                    
+                     
+                     <input  th:name="ninmmg" type="hidden" th:value="${ninm.relacionPeso}">
+                     <input  th:name="idninm" type="hidden" th:value="${ninm.ids}">
+                </tr>
+                <tr th:each="jovm:${jovmax}">
+                    <td style="text-align: center" th:text="${jovm.nombre}"></td>
+                    <td style="text-align: center" th:text="${jovm.edad}"></td>
+                    <td style="text-align: center" th:text="${jovm.noHistoriaClinica}"></td>
+                    <td style="text-align: center"  th:text="${jovm.gravedad}"></td>
+                    <input  th:name="jgravm" type="hidden" th:value="${jovm.gravedad}">
+                    <input  th:name="idjovm" type="hidden" th:value="${jovm.id}">
+                    
+                </tr>
+                
+                <tr th:each="ancm:${ancmax}">
+                    <td style="text-align: center" th:text="${ancm.nombre}"></td>
+                    <td style="text-align: center" th:text="${ancm.edad}"></td>
+                    <td style="text-align: center" th:text="${ancm.noHistoriaClinica}"></td>
+                    <td style="text-align: center"  th:text="${ancm.gravedad}"></td>
+                    
+                     
+                     <input  th:name="agravm" type="hidden" th:value="${ancm.gravedad}">
+                     <input  th:name="idancm" type="hidden" th:value="${ancm.id}">
+                </tr>
+               
+
+            </tbody>
+        </table>
+      </form>
       
       
       
       
-</form>
+      
 </div>
 
 

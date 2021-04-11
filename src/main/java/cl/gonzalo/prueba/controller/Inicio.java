@@ -9,7 +9,6 @@ import cl.gonzalo.prueba.repository.IPAncianos;
 import cl.gonzalo.prueba.repository.IPJovenes;
 import cl.gonzalo.prueba.repository.IPNinnos;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,46 +68,6 @@ public class Inicio {
         return "redirect:/ocupados";
     }
 
-    @GetMapping("/agendar")
-    public String agendar(ModelMap m, @RequestParam(name = "id") int id, @RequestParam(name = "tipo") String tipo) {
-
-        if (tipo.equals("Pediatria")) {
-
-            Iterable<PNinnos> ninno = pn.findgravedad();
-            m.addAttribute("ninno", ninno);
-            m.addAttribute("id", id);
-            return "agendarpediatria";
-        } else if (tipo.equals("CGI")) {
-
-            List<PJovenes> joven = pj.findgravedad();
-            List<PAncianos> anciano = pa.findgravedad();
-
-            m.addAttribute("joven", joven);
-            m.addAttribute("anciano", anciano);
-            m.addAttribute("id", id);
-            return "agendarcgi";
-        }
-
-        return null;
-
-    }
-
-    @GetMapping("/agendarped")
-    public String agendarped(@RequestParam(name = "id", required = false) Integer id, @RequestParam(name = "idnin", required = false) Integer idnin) {
-
-        if (id == null || idnin == null) {
-            return "agendarpediatria";
-        } else {
-
-            cc.aumentar(id);
-
-            pn.deleteById(idnin);
-        }
-
-        return "redirect:/consultas";
-    }
-
-   
     @PostMapping("/crear")
 
     public String crear(Model m, Consultas consulta) {
@@ -302,23 +261,29 @@ public class Inicio {
     @GetMapping("/lista")
     public String lista(Model m) {
 
-        Iterable<PJovenes> joven = pj.findAll();
-        Iterable<PAncianos> anciano = pa.findAll();
-
+        Iterable<PJovenes> joven = pj.findgravedad();
+        Iterable<PAncianos> anciano = pa.findgravedad();
+        Iterable<PNinnos> ninno = pn.findgravedad();
+        Iterable<PJovenes> pjmax = pj.findgravedadmax();
+        Iterable<PAncianos> pamax = pa.findgravedadmax();
+        Iterable<PNinnos> pnmax = pn.findgravedadmax();
         m.addAttribute("joven", joven);
         m.addAttribute("anciano", anciano);
-
+        m.addAttribute("ninno", ninno);
+        m.addAttribute("ninmax", pnmax);
+        m.addAttribute("ancmax", pamax);
+        m.addAttribute("jovmax", pjmax);
         return "lista";
 
     }
 
-    @GetMapping("/atender")
-    public String atender(@RequestParam(name = "ngrav", required = false, defaultValue = "0") int ngrav, @RequestParam(name = "idnin", required = false, defaultValue = "0" ) int idnin, @RequestParam(name = "idanc", required = false, defaultValue = "0") Integer idanc, @RequestParam(name = "idjov", required = false , defaultValue = "0") Integer idjov, @RequestParam(name = "agrav", required = false, defaultValue = "0") Integer agrav, @RequestParam(name = "jgrav", required = false, defaultValue = "0") Integer jgrav) {
-      
-        System.out.println(pj.max());
-        System.out.println(pa.max());
-        System.out.println(cc.findbycantidad());
-        if (idnin == 0 && idanc == 0 && idjov == 0) {
+    @GetMapping("/atenderadulto")
+    public String atenderadulto(@RequestParam(name = "idanc", required = false, defaultValue = "0") Integer idanc, @RequestParam(name = "idjov", required = false, defaultValue = "0") Integer idjov) {
+
+        System.out.println(idanc);
+        System.out.println(idjov);
+
+        if (idanc == 0 && idjov == 0) {
 
             return "nohaypaci";
 
@@ -326,33 +291,132 @@ public class Inicio {
 
         //ANCIANO
         if (pj.max() < pa.max()) {
-            System.out.println("entre en la 1");
-            Integer cantidad = cc.findbycantidad();
-            
-            if (cantidad ==0) {  return "nohay";
-                
-            }else{
-            
-              cc.findCGIOcupado();
-             pa.deleteById(pa.maxid());    
-           
+
+            Integer cantidad = cc.findbycantidadCGE();
+
+            if (cantidad == 0) {
+                return "nohay";
+
+            } else {
+                cc.findCGIOcupado();
+                pa.deleteById(pa.maxid());
+
             }
         }
 
         // JOVEN
         if (pj.max() > pa.max()) {
-            System.out.println("entre en la 2");
-            Integer cantidad = cc.findbycantidad();
-            
-            if (cantidad ==0) { return "nohay";
-                
-            }else{
-            
-              cc.findCGIOcupado();
 
-            pj.deleteById(pj.maxid());
+            Integer cantidad = cc.findbycantidadCGE();
+
+            if (cantidad == 0) {
+                return "nohay";
+
+            } else {
+
+                cc.findCGIOcupado();
+
+                pj.deleteById(pj.maxid());
             }
         }
+
+        return "redirect:/lista";
+    }
+
+    @GetMapping("/atendernino")
+    public String atendernino(@RequestParam(name = "idnin", required = false, defaultValue = "0") Integer idnino) {
+
+        if (idnino == 0) {
+
+            return "nohaypaci";
+
+        }
+
+        // NIÑO
+        Integer cantidad = cc.findbycantidadPED();
+
+        if (cantidad == 0) {
+            return "nohay";
+
+        } else {
+
+            cc.findPEDcupado();
+
+            pn.deleteById(pn.maxid());
+        }
+
+        return "redirect:/lista";
+    }
+
+    @GetMapping("/atendercritico")
+    public String atendercritico(@RequestParam(name = "idnin", required = false, defaultValue = "0") Integer idnino) {
+
+        if (pa.maxgrave() == 0 && pj.maxgrave() == 0 && pn.maxgrave() == 0) {
+
+            return "nohaypaci";
+
+        }
+
+        
+        //anciano
+         if (pj.maxgrave()< pa.maxgrave() && pn.maxgrave()<pa.maxgrave()) {
+
+            Integer cantidad = cc.findbycantidadURG();
+
+            if (cantidad == 0) {
+                return "nohay";
+
+            } else {
+                cc.findURGcupado();
+                pa.deleteById(pa.maxidgrave());
+
+            }
+        }
+        
+        
+            
+            
+            
+            
+            // joven
+            if (pa.maxgrave()< pj.maxgrave() && pn.maxgrave()<pj.maxgrave()) {
+
+            Integer cantidad = cc.findbycantidadURG();
+
+            if (cantidad == 0) {
+                return "nohay";
+
+            } else {
+                cc.findURGcupado();
+                pj.deleteById(pj.maxidgrave());
+
+            }
+        }
+        
+            
+            
+            
+            
+            
+             // niño
+            if (pa.maxgrave()< pn.maxgrave() && pj.maxgrave()<pn.maxgrave()) {
+
+            Integer cantidad = cc.findbycantidadURG();
+
+            if (cantidad == 0) {
+                return "nohay";
+
+            } else {
+                cc.findURGcupado();
+                pn.deleteById(pn.maxidgrave());
+
+            }
+        }
+         
+            
+            
+            
+            
 
         
 

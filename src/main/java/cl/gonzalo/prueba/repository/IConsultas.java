@@ -34,6 +34,19 @@ public interface IConsultas extends CrudRepository<Consultas, Integer> {
    @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'CGI' AND estado='En Espera' LIMIT 1")
    void findCGIOcupado();
    
+   
+   @Modifying 
+   @Transactional
+   @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'Urgencia' AND estado='En Espera' LIMIT 1")
+   void findURGcupado();
+   
+   
+   
+   @Modifying 
+   @Transactional
+   @Query(nativeQuery = true, value = "UPDATE consultas SET estado='Ocupada' , paciente=paciente+1  WHERE tipo_consulta = 'Pediatria' AND estado='En Espera' LIMIT 1")
+   void findPEDcupado();
+   
  
  
  
@@ -41,13 +54,19 @@ public interface IConsultas extends CrudRepository<Consultas, Integer> {
 	    List<Consultas> findbyestado();
 
             
-            @Query("select count(e) from Consultas e where e.estado = 'En Espera'")
-            Integer findbycantidad();
+            @Query(nativeQuery = true, value = "SELECT COUNT(estado)FROM consultas WHERE estado='En Espera' and tipo_consulta= 'CGI';")
+            Integer findbycantidadCGE();
             
+            
+            @Query(nativeQuery = true, value = "SELECT COUNT(estado)FROM consultas WHERE estado='En Espera' and tipo_consulta= 'Pediatria';")
+            Integer findbycantidadPED();
+            
+             @Query(nativeQuery = true, value = "SELECT COUNT(estado)FROM consultas WHERE estado='En Espera' and tipo_consulta= 'Urgencia';")
+            Integer findbycantidadURG();
             
            
 
-List<Consultas> findAllByEstado(String estado);
+          List<Consultas> findAllByEstado(String estado);
 
 
 Consultas findByIds(int id);
