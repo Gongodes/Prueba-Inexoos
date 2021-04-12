@@ -331,9 +331,7 @@ public class Inicio {
                 pa.deleteById(pa.maxid());
 
             }
-        }else
-
-        if (pj.max() > pa.max()) {
+        } else if (pj.max() > pa.max()) {
 
             Integer cantidad = cc.findbycantidadCGE();
 
@@ -346,11 +344,8 @@ public class Inicio {
 
                 pj.deleteById(pj.maxid());
             }
-        }
-        else
-        
-        
-         if (pj.max() == pa.max()){  Integer cantidad = cc.findbycantidadCGE();
+        } else if (pj.max() == pa.max()) {
+            Integer cantidad = cc.findbycantidadCGE();
 
             if (cantidad == 0) {
                 return "nohay";
@@ -359,13 +354,8 @@ public class Inicio {
                 cc.findCGIOcupado();
                 pa.deleteById(pa.maxid());
 
-            }    }
-        
-        
-        
-        
-        
-        
+            }
+        }
 
         return "redirect:/lista";
     }
