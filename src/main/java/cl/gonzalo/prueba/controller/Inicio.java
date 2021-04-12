@@ -391,7 +391,7 @@ public class Inicio {
                 pa.deleteById(pa.maxidgrave());
 
             }
-        }
+        }else
 
         
         if (pa.maxgrave() < pj.maxgrave() && pn.maxgrave() < pj.maxgrave()) {
@@ -406,7 +406,7 @@ public class Inicio {
                 pj.deleteById(pj.maxidgrave());
 
             }
-        }
+        }else
 
         
         if (pa.maxgrave() < pn.maxgrave() && pj.maxgrave() < pn.maxgrave()) {
@@ -422,6 +422,41 @@ public class Inicio {
 
             }
         }
+        else
+        
+         if (pa.maxgrave() == pn.maxgrave() || pj.maxgrave()  == pn.maxgrave() ) {
+
+            Integer cantidad = cc.findbycantidadURG();
+
+            if (cantidad == 0) {
+                return "nohay";
+
+            } else {
+                cc.findURGcupado();
+                pn.deleteById(pn.maxidgrave());
+
+            }
+        }
+        else
+         
+         
+         if (pj.maxgrave() == pa.maxgrave()  ) {
+
+            Integer cantidad = cc.findbycantidadURG();
+
+            if (cantidad == 0) {
+                return "nohay";
+
+            } else {
+                cc.findURGcupado();
+                pa.deleteById(pa.maxidgrave());
+
+            }
+        }
+        
+        
+        
+        
 
         return "redirect:/lista";
     }
@@ -451,3 +486,4 @@ public class Inicio {
     }
 
 }
+
