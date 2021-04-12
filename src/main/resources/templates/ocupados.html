@@ -8,6 +8,7 @@
 <script src="https://kit.fontawesome.com/624ca736ba.js" crossorigin="anonymous"></script> 
 
 </head>
+<div style="text-align: center;" class="container">
 <body class="bg-light text-dark">
 <div class="panel panel-info">
 <div  class="page-header">
@@ -20,9 +21,15 @@
     
     
     <form  th:action="@{/desocupar}" method="get">  
-                    <button  style="margin-left: 31em; margin-top: 2em" type="submit"  class="btn btn-danger btn-lg">Desocupar</button> </form>   <form  th:action="@{/}" method="get">  
-                    <button  style="margin-left: 30em; margin-top: 2em" type="submit"  class="btn btn-primary btn-lg">Volver a Inicio</button> </form> 
- <table   style="table-layout: fixed;width: 60em; margin-left: 14em; margin-top: 2em;"  class="table table-info table-striped table-bordered">
+                    <button  style=" margin-top: 2em" type="submit"  class="btn btn-danger btn-lg">Desocupar</button> </form>   <form  th:action="@{/}" method="get">  
+           
+           
+           
+                                         <button  style=" margin-top: 2em" type="submit"  class="btn btn-primary btn-lg">Volver a Inicio</button> </form> 
+
+                                         <div class="table-responsive-sm">
+                                      
+ <table   style=" margin-top: 2em;"  class="table table-info table-striped table-bordered">
             <thead style="text-align: center">
                 <tr>
                     
@@ -50,7 +57,7 @@
             </tbody>
         </table>
     
-
+    </div>
 
 </div>
 
@@ -61,5 +68,5 @@
     
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>
-
+</div>
 </html>
