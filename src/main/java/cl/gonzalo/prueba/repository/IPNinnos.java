@@ -26,13 +26,13 @@ public interface IPNinnos extends CrudRepository<PNinnos, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM pninnos WHERE relacion_peso >4 order by relacion_peso  desc")
     Iterable<PNinnos> findgravedadmax();
 
-    @Query(nativeQuery = true, value = "select COALESCE(max(relacion_peso),0) from pninnos where ids=(select min(ids) from pninnos) and relacion_peso <= 4;")
+    @Query(nativeQuery = true, value = "select  COALESCE(max(relacion_peso),0)  from pninnos where  relacion_peso <= 4;")
     Integer max();
 
     @Query(nativeQuery = true, value = "select min(ids) from pninnos where relacion_peso=(select max(relacion_peso) from pninnos) and relacion_peso <= 4 ")
     public Integer maxid();
 
-    @Query(nativeQuery = true, value = "select COALESCE(max(relacion_peso),0) from pninnos where ids=(select min(ids) from pninnos) and relacion_peso > 4;")
+    @Query(nativeQuery = true, value = "select   COALESCE(max(relacion_peso),0)  from pninnos where  relacion_peso > 4;")
     Integer maxgrave();
 
     @Query(nativeQuery = true, value = "select min(ids) from pninnos where relacion_peso=(select max(relacion_peso) from pninnos) and relacion_peso > 4 ")
