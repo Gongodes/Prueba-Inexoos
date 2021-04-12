@@ -30,7 +30,7 @@
                     <th scope="col">Nombre Especialista</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Tipo de Consulta</th>
-                    
+                    <th scope="col">Desocupar</th>
                     
                     
                 </tr>
@@ -41,7 +41,9 @@
                     <td style="text-align: center" th:text="${con.nombreEspecialista}"></td>
                     <td style="text-align: center" th:text="${con.estado}"></td>
                     <td style="text-align: center" th:text="${con.tipoConsulta}"></td>
-                    
+                     <td style="text-align: center"> <form  th:action="@{/desocupar1}"  method="get">
+                    <input type="hidden" th:value="${con.ids}" th:name="ids" /> 
+                    <button type="submit" class="btn btn-info">Desocupar</button></form></td>
                     
                 </tr>
 

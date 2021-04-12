@@ -25,6 +25,16 @@ public interface IConsultas extends CrudRepository<Consultas, Integer> {
     @Transactional
     @Query(nativeQuery = true, value = "UPDATE consultas SET estado='En Espera' WHERE estado = 'Ocupada'")
     void findOcupados();
+    
+    
+    @Modifying
+    @Transactional                         
+    @Query(nativeQuery = true, value = "UPDATE consultas SET estado='En Espera' WHERE ids=:ids")
+    void findOcupados1(@Param("ids") Integer ids );
+    
+    
+    
+    
 
     @Modifying
     @Transactional
@@ -52,8 +62,8 @@ public interface IConsultas extends CrudRepository<Consultas, Integer> {
 
     List<Consultas> findAllByEstado(String estado);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM consultas   WHERE paciente = (SELECT MAX(paciente) FROM consultas)  order by ids;")
-    Iterable<Consultas> findMassol();
+    @Query(nativeQuery = true, value = "SELECT * FROM consultas   WHERE paciente = (SELECT MAX(paciente) FROM consultas) ;")
+    Iterable<Consultas> findMassol();   
 
     
 }

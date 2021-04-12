@@ -66,6 +66,18 @@ public class Inicio {
 
         return "redirect:/ocupados";
     }
+    
+    
+    
+    @GetMapping("/desocupar1")
+     public String desocupar1( @RequestParam(name="ids" , required = false )Integer ids ) {
+
+        cc.findOcupados1(ids);
+
+        return "redirect:/ocupados";
+    }
+
+    
 
     @PostMapping("/crear")
 
