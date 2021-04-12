@@ -1,4 +1,5 @@
 package cl.gonzalo.prueba.controller;
+
 import cl.gonzalo.prueba.model.Consultas;
 import cl.gonzalo.prueba.model.PAncianos;
 import cl.gonzalo.prueba.model.PJovenes;
@@ -66,18 +67,14 @@ public class Inicio {
 
         return "redirect:/ocupados";
     }
-    
-    
-    
+
     @GetMapping("/desocupar1")
-     public String desocupar1( @RequestParam(name="ids" , required = false )Integer ids ) {
+    public String desocupar1(@RequestParam(name = "ids", required = false) Integer ids) {
 
         cc.findOcupados1(ids);
 
         return "redirect:/ocupados";
     }
-
-    
 
     @PostMapping("/crear")
 
@@ -322,7 +319,6 @@ public class Inicio {
 
         }
 
-        
         if (pj.max() < pa.max()) {
 
             Integer cantidad = cc.findbycantidadCGE();
@@ -335,9 +331,8 @@ public class Inicio {
                 pa.deleteById(pa.maxid());
 
             }
-        }
+        }else
 
-        
         if (pj.max() > pa.max()) {
 
             Integer cantidad = cc.findbycantidadCGE();
@@ -352,6 +347,25 @@ public class Inicio {
                 pj.deleteById(pj.maxid());
             }
         }
+        else
+        
+        
+         if (pj.max() == pa.max()){  Integer cantidad = cc.findbycantidadCGE();
+
+            if (cantidad == 0) {
+                return "nohay";
+
+            } else {
+                cc.findCGIOcupado();
+                pa.deleteById(pa.maxid());
+
+            }    }
+        
+        
+        
+        
+        
+        
 
         return "redirect:/lista";
     }
@@ -365,7 +379,6 @@ public class Inicio {
 
         }
 
-        
         Integer cantidad = cc.findbycantidadPED();
 
         if (cantidad == 0) {
@@ -382,7 +395,12 @@ public class Inicio {
     }
 
     @GetMapping("/atendercritico")
-    public String atendercritico(@RequestParam(name = "idnin", required = false, defaultValue = "0") Integer idnino) {
+    public String atendercritico() {
+
+        System.out.println(pa.maxgrave());
+
+        System.out.println(pj.maxgrave());
+        System.out.println(pn.maxgrave());
 
         if (pa.maxgrave() == 0 && pj.maxgrave() == 0 && pn.maxgrave() == 0) {
 
@@ -390,7 +408,6 @@ public class Inicio {
 
         }
 
-        
         if (pj.maxgrave() < pa.maxgrave() && pn.maxgrave() < pa.maxgrave()) {
 
             Integer cantidad = cc.findbycantidadURG();
@@ -403,10 +420,7 @@ public class Inicio {
                 pa.deleteById(pa.maxidgrave());
 
             }
-        }else
-
-        
-        if (pa.maxgrave() < pj.maxgrave() && pn.maxgrave() < pj.maxgrave()) {
+        } else if (pa.maxgrave() < pj.maxgrave() && pn.maxgrave() < pj.maxgrave()) {
 
             Integer cantidad = cc.findbycantidadURG();
 
@@ -418,10 +432,7 @@ public class Inicio {
                 pj.deleteById(pj.maxidgrave());
 
             }
-        }else
-
-        
-        if (pa.maxgrave() < pn.maxgrave() && pj.maxgrave() < pn.maxgrave()) {
+        } else if (pa.maxgrave() < pn.maxgrave() && pj.maxgrave() < pn.maxgrave()) {
 
             Integer cantidad = cc.findbycantidadURG();
 
@@ -433,10 +444,7 @@ public class Inicio {
                 pn.deleteById(pn.maxidgrave());
 
             }
-        }
-        else
-        
-         if (pa.maxgrave() == pn.maxgrave() || pj.maxgrave()  == pn.maxgrave() ) {
+        } else if (pa.maxgrave() == pn.maxgrave() || pj.maxgrave() == pn.maxgrave()) {
 
             Integer cantidad = cc.findbycantidadURG();
 
@@ -448,11 +456,7 @@ public class Inicio {
                 pn.deleteById(pn.maxidgrave());
 
             }
-        }
-        else
-         
-         
-         if (pj.maxgrave() == pa.maxgrave()  ) {
+        } else if (pj.maxgrave() == pa.maxgrave()) {
 
             Integer cantidad = cc.findbycantidadURG();
 
@@ -465,10 +469,6 @@ public class Inicio {
 
             }
         }
-        
-        
-        
-        
 
         return "redirect:/lista";
     }
@@ -498,4 +498,3 @@ public class Inicio {
     }
 
 }
-
