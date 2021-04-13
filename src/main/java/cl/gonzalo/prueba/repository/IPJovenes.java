@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cl.gonzalo.prueba.repository;
 import cl.gonzalo.prueba.model.PJovenes;
 import org.springframework.data.jpa.repository.Query;
@@ -29,13 +24,13 @@ public interface IPJovenes extends CrudRepository<PJovenes, Integer> {
     @Query(nativeQuery = true, value = "select  COALESCE(max(gravedad),0)  from pjovenes where  gravedad <= 4 limit 1")
     Integer max();
 
-    @Query(nativeQuery = true, value = "select  COALESCE(min(id),0)  from pjovenes where  gravedad <= 4 limit 1")
+    @Query(nativeQuery = true, value = "SELECT COALESCE(min(id),0) FROM pjovenes   WHERE gravedad = (SELECT MAX(gravedad)  FROM pjovenes where  gravedad  <5 )")
     public Integer maxid();
 
     @Query(nativeQuery = true, value = "select  COALESCE(max(gravedad),0)  from pjovenes where  gravedad > 4 limit 1")
     Integer maxgrave();
 
-    @Query(nativeQuery = true, value = "select  COALESCE(min(id),0)  from pjovenes where  gravedad > 4 limit 1")
+    @Query(nativeQuery = true, value = "SELECT COALESCE(min(id),0) FROM pjovenes   WHERE gravedad = (SELECT MAX(gravedad)  FROM pjovenes where  gravedad  >4 )")
     public Integer maxidgrave();
 
 }
